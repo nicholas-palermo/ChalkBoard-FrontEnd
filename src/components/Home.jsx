@@ -3,23 +3,6 @@ import React, { Fragment } from "react";
 const Home = () => {
     return (
         <Fragment>
-            <div>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark p-3">
-                <div className="container-fluid">
-                    <a className="navbar-brand" href="#">ChalkBoard</a>
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-                        <div className="navbar-nav ms-auto">
-                            <a className="nav-link active px-4" aria-current="page" href="#">Home</a>
-                            <a className="nav-link px-4" href="#">Grades</a>
-                            <a className="nav-link px-4" href="#">Logout</a>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-            </div>
             <div className="container mt-3">
                 <div className="alert alert-info alert-dismissible fade show" role="alert">
                     <strong>Example Alert:</strong> Extra information goes here.
