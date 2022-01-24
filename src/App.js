@@ -1,4 +1,4 @@
-import './App.css';
+import "bootswatch/dist/minty/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
 import Grades from './components/Grades';
