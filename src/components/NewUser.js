@@ -14,8 +14,16 @@ function NewUser() {
             <form data-bitwarden-watching="1">
                 <div className="credentials  bg-primary w-50 rounded-bottom">
                     <div className="form-floating  p-2">
-                        <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com" />
+                        <input type="email" className="form-control" id="floatingInputEmail" placeholder="name@example.com" />
                         <label htmlFor="floatingInput">Email</label>
+                    </div>
+                    <div className="form-floating  p-2">
+                        <input type="text" className="form-control" id="floatingInputFirstName" placeholder="firstName" />
+                        <label htmlFor="floatingInput">First Name</label>
+                    </div>
+                    <div className="form-floating  p-2">
+                        <input type="text" className="form-control" id="floatingInputLastName" placeholder="lastName" />
+                        <label htmlFor="floatingInput">Last Name</label>
                     </div>
                     <div className="form-floating p-2">
                         <input type="password" className="form-control" id="floatingPassword" placeholder="Password" />
