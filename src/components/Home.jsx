@@ -1,8 +1,9 @@
 import '../App.css'
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Link } from 'react-router-dom';
 
 const Home = () => {
+
     return (
         <Fragment>
             <div className="container mt-3 text-center">
@@ -41,7 +42,7 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-
+ 
             <div className="modal fade" id="addCourseModal" tabIndex="-1" aria-labelledby="modalTitle" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content text-dark">
