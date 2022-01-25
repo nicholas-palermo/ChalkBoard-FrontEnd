@@ -33,7 +33,7 @@ function Login() {
                                 <Link to="/newUser" className="text-light">New User</Link>
                                 <span className="seperator m-1">|</span>
 
-                                <Link to="/changeUsername" className="text-light">Forgot Username</Link>
+                                <Link to="/changeUsername" className="text-light">Forgot Email</Link>
                                 <span className="seperator m-1">|</span>
 
                                 <Link to="/changePassword" className="text-light">Forgot Password</Link>
