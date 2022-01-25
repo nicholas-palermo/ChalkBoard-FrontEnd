@@ -22,7 +22,7 @@ function NewUser() {
                         <label htmlFor="floatingPassword">Password</label>
                     </div>
                     <div className="form-floating p-2">
-                        <input type="password" className="form-control" id="floatingPassword" placeholder="Password" />
+                        <input type="password" className="form-control" id="floatingPassword2" placeholder="Password" />
                         <label htmlFor="floatingPassword">Re-Enter Password</label>
                     </div>
                     <div className="buttonContainer mt-2 pb-3">
