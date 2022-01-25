@@ -13,15 +13,44 @@ function ChangePassword() {
                             <label htmlFor="floatingInput" className="ps-3">Enter Email</label>
                             <sub className="text-light">ex.John.Doe29@login.chalkboard.edu</sub>
                         </div>
-                        {/* <div className="form-floating p-1">
-                            <input type="password" className="form-control" id="floatingPassword" placeholder="Password" />
-                            <label htmlFor="floatingPassword" className="ps-3">Enter New Password</label>
-                            <sub className="text-light">ex.Doe&John</sub>
-                        </div> */}
                         <div className="buttonContainer mt-2">
-                            <button type="button" className="btn btn-lg btn-dark" onClick="">Send Resend Code</button>
+                            <button type="button" className="btn btn-lg btn-dark" data-bs-toggle="modal" data-bs-target="#addCourseModal">Send Resend Code</button>
                         </div>
                     </div>
+                </div>
+
+                <div className="modal fade" id="addCourseModal" tabIndex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content text-dark">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="modalTitle">Reset Password</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            <form>
+                            <div className='mb-3'>
+                                    <label htmlFor="termSelect">Enter Code</label>
+                                    <input type="text" className="form-control text-dark" id="courseName"/>
+                                </div>
+                                <div className='mb-3'>
+                                    <label htmlFor="termSelect">Old Password</label>
+                                    <input type="text" className="form-control text-dark" id="courseName"/>
+                                </div>
+                                <div className='mb-3'>
+                                    <label htmlFor="courseName">New Password</label>
+                                    <input type="text" className="form-control text-dark" id="courseName"/>
+                                </div>
+                                <div className='mb-3'>
+                                    <label htmlFor="courseName">Confirm New Password</label>
+                                    <input type="text" className="form-control text-dark" id="courseName"/>
+                                </div>
+                            </form>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-primary">Save new password</button>
+                        </div>
+                    </div>
+                </div>
                 </div>
             </center>
         </div>
