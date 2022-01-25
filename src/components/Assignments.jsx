@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import Assignment from "./Assignment";
 
 const Assignments = () => {
-    const [view, setView] = useState("staff");
+    const [view, setView] = useState("student");
 
     useEffect(() => {
         if (view !== "student") {
