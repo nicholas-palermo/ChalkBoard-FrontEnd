@@ -27,7 +27,7 @@ const Navbar = () => {
                     <div className="navbar-nav ms-auto text-center">
                         <Link className="nav-link active text-decoration-none px-4" to={"/"} id="home" onClick={changeActive}>Home</Link>
                         <Link className="nav-link text-decoration-none px-4" to={"/grades"} id="grades" onClick={changeActive}>Grades</Link>
-                        <Link className="nav-link text-decoration-none px-4" to={"/"} id="logout" onClick={changeActive}>Logout</Link>
+                        <Link className="nav-link text-decoration-none px-4" to={"/login"} id="logout" onClick={changeActive}>Logout</Link>
                     </div>
                 </div>
             </div>
