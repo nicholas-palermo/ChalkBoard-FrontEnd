@@ -5,7 +5,7 @@ import 'bootswatch/dist/minty/bootstrap.min.css';
 function ChangeEmail() {
     return (
         <div>
-            <h1>Change Username</h1>
+            <h1>Change Email</h1>
 
         </div>
 
