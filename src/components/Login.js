@@ -1,6 +1,7 @@
 import React from "react";
 import "../App.css";
 import 'bootswatch/dist/minty/bootstrap.min.css';
+import { Link } from 'react-router-dom';
 
 
 
@@ -9,12 +10,12 @@ function Login() {
         <div>
 
             <center>
-      <div className=" w-50 rounded-top">
-                        <label className="form-label mt-4"><h1 className="title "><strong>Chalkboard</strong> Login</h1></label><br />
-                        <label className="form-label mb-4 text-dark">Log in with your <a href="./Credentials" className="text-muted" target="_blank">Chalkboard Login credentials</a></label>
-                    </div>
+                <div className=" w-50 rounded-top">
+                    <label className="form-label mt-4"><h1 className="title "><strong>Chalkboard</strong> Login</h1></label><br />
+
+                </div>
                 <div className="form-group ">
-                   
+
                     <div className="credentials bg-primary w-50 rounded p-2">
                         <div className="form-floating p-1">
                             <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com" />
@@ -29,13 +30,16 @@ function Login() {
                         <div className="buttonContainer mt-2">
                             <button type="button" className="btn btn-lg btn-dark ">Login</button>
                             <div className="support-links m-3 p-2">
-                                <a className="text-light" target="_blank:" href="https://managelogin.cuny.edu/OIMSelfService/registration">New User</a>
+                                <Link to="/newUser" className="text-light">New User</Link>
                                 <span className="seperator m-1">|</span>
-                                <a className="text-light" target="_blank:" href="https://managelogin.cuny.edu/OIMSelfService/forgotuid">Forgot Username</a>
+
+                                <Link to="/changeUsername" className="text-light">Forgot Username</Link>
                                 <span className="seperator m-1">|</span>
-                                <a className="text-light" target="_blank:" href="https://managelogin.cuny.edu/OIMSelfService/forgotpwd">Forgot Password</a>
+
+                                <Link to="/changePassword" className="text-light">Forgot Password</Link>
                                 <span className="seperator m-1">|</span>
-                                <a className="text-light" target="_blank:" href="https://managelogin.cuny.edu/OIMSelfService/manageAuthentication">Manage your Account</a>
+
+                                <Link to="/manageAccount" className="text-light">Manage your Account</Link>
                             </div>
                         </div>
                     </div>
