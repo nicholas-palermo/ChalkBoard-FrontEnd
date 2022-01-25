@@ -4,6 +4,21 @@ import Assignment from "./Assignment";
 const Assignments = () => {
     const [view, setView] = useState("student");
 
+    const getAssignments = async () => {
+        try {
+            
+            const response = await fetch("http://localhost:5000/Assignments/CSC330");
+            const jsonData = await response.json();
+
+            console.log(jsonData);
+
+        } catch (err) {
+            console.error(err.message);
+        }
+    }
+
+
+
     useEffect(() => {
         if (view !== "student") {
             document.getElementById("assignmentsList").classList = "col-12";
