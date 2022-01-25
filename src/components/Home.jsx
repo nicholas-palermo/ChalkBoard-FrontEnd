@@ -1,8 +1,18 @@
 import '../App.css'
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Link } from 'react-router-dom';
 
 const Home = () => {
+    const [courses, setCourses] = useState([{term: "Spring 2022", name: "CSC326"},{term: "Spring 2022", name: "CSC226"},{term: "Spring 2022", name: "CSC315"}]);
+
+    const addCourse = () => {
+        let newTerm = document.getElementById("termSelect").value;
+        let re = /[^0-9](?=[0-9])/g; 
+        newTerm = newTerm.charAt(0).toUpperCase() + newTerm.slice(1);
+        newTerm = newTerm.replace(re, '$& ');
+        setCourses(courses => [...courses, {term: newTerm, name: document.getElementById("courseName").value}]);
+    }
+
     return (
         <Fragment>
             <div className="container mt-3 text-center">
@@ -20,9 +30,13 @@ const Home = () => {
                                 Courses List
                             </div>
                             <ul className="list-group list-group-flush">
-                                <li className="list-group-item"><Link className="text-dark text-decoration-none" to={"/courses/1"}>2022 X Term: CSC ###</Link></li>
-                                <li className="list-group-item"><Link className="text-dark text-decoration-none" to={"/courses/2"}>2022 X Term: CSC ###</Link></li>
-                                <li className="list-group-item"><Link className="text-dark text-decoration-none" to={"/courses/3"}>2022 X Term: CSC ###</Link></li>
+                                {
+                                    courses.map((course, idx) => {
+                                        return (
+                                            <li key={idx} className="list-group-item"><Link className="text-dark text-decoration-none" to={"/courses/" + idx}>{course.term}: {course.name}</Link></li>
+                                        )
+                                    })
+                                }
                             </ul>
                             <button className='btn btn-success rounded-0 rounded-bottom' data-bs-toggle="modal" data-bs-target="#addCourseModal">Add Course</button>
                         </div>
@@ -53,7 +67,7 @@ const Home = () => {
                             <form>
                                 <div className='mb-3'>
                                     <label htmlFor="termSelect">Select the term:</label>
-                                    <select className="form-select" id='termSelect' aria-label="Default select example">
+                                    <select required className="form-select" id='termSelect' aria-label="Default select example">
                                         <option value="spring2022">Spring 2022</option>
                                         <option value="summer2022">Summer 2022</option>
                                         <option value="fall2022">Fall 2022</option>
@@ -62,13 +76,13 @@ const Home = () => {
                                 </div>
                                 <div className='mb-3'>
                                     <label htmlFor="courseName">Course Name:</label>
-                                    <input type="text" className="form-control text-dark" id="courseName" placeholder="CSC ###" />
+                                    <input required type="text" className="form-control text-dark" id="courseName" placeholder="CSC ###" />
                                 </div>
                             </form>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-dark" data-bs-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary">Save changes</button>
+                            <button type="button" className="btn btn-primary" onClick={addCourse}>Save changes</button>
                         </div>
                     </div>
                 </div>
