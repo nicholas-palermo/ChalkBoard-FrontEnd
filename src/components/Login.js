@@ -10,18 +10,27 @@ function Login() {
         console.log(email);
     }, [email])
 
-
-
     const onSubmitForm = async (e) => {
         e.preventDefault();
         try {
             const response = await fetch(`http://localhost:5000/login/${email}`);
+          
+            const jsonData = await response.json();
+            console.log(jsonData);
+
+            if (pass === jsonData.pass) {
+                console.log("correct password");
+                window.location = "/";
+            } else {
+                console.log("invalid password");
+            }
 
             console.log(response);
         } catch (err) {
             console.error(err.message);
         }
     }
+
 
     return (
         <div className="d-flex justify-content-center flex-column">
