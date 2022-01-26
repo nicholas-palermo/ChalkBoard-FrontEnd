@@ -20,13 +20,20 @@ function Login() {
         e.preventDefault();
         try {
             const response = await fetch(`http://localhost:5000/login/${email}`);
+            const jsonData = await response.json();
+            console.log(jsonData);
 
-
-            console.log(response);
+            if (pass === jsonData.pass) {
+                console.log("correct password");
+                window.location = "/";
+            } else {
+                console.log("invalid password");
+            }
         } catch (err) {
             console.error(err.message);
         }
     } 
+
 
     return (
         <div>
