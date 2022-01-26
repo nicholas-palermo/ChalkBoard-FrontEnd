@@ -35,13 +35,11 @@ function Login() {
                                 <Link to="/newUser" className="text-light">New User</Link>
                                 <span className="seperator m-1">|</span>
 
-                                <Link to="/changeUsername" className="text-light">Forgot Email</Link>
+                                <Link to="/changeUsername" className="text-light">Change Email</Link>
                                 <span className="seperator m-1">|</span>
 
                                 <Link to="/changePassword" className="text-light">Forgot Password</Link>
-                                <span className="seperator m-1">|</span>
-
-                                <Link to="/manageAccount" className="text-light">Manage your Account</Link>
+                                
                             </div>
                         </div>
                     </div>
