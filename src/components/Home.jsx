@@ -4,29 +4,32 @@ import { Link } from 'react-router-dom';
 
 const Home = () => {
 
-    const [courses, setCourses] = useState([{term: "Spring 2022", name: "CSC326"},{term: "Spring 2022", name: "CSC226"},{term: "Spring 2022", name: "CSC315"}]);
+    const [courses, setCourses] = useState([{term: "Spring 2022", code: "CSC326"},{term: "Spring 2022", code: "CSC226"},{term: "Spring 2022", code: "CSC315"}]);
 
     const resetModal = () => {
         document.getElementById("termSelect").value = "Spring2022";
+        document.getElementById("courseCode").value = "";
         document.getElementById("courseName").value = "";
     }
 
     const addCourse = (e) => {
         e.preventDefault();
         let newTerm = document.getElementById("termSelect").value;
+        let courseSubject = document.getElementById("courseSubject").value;
+        let courseCode = document.getElementById("courseCode").value;
         let courseName = document.getElementById("courseName").value;
         let termRE = /[^0-9](?=[0-9])/g;
-        courseName = courseName.slice(0,3).toUpperCase() + courseName.slice(3);
+        courseCode = courseCode.slice(0,3).toUpperCase() + courseCode.slice(3);
         newTerm = newTerm.replace(termRE, '$& ');
-        setCourses(courses => [...courses, {term: newTerm, name: courseName}]);
+        setCourses(courses => [...courses, {term: newTerm, code: courseCode}]);
     }
 
-    const validateCourseName = () => {
-        let courseName = document.getElementById("courseName").value;
+    const validateCourseCode = () => {
+        let courseCode = document.getElementById("courseCode").value;
         let submitBtn = document.getElementById("submitCourseBtn");
         let courseRE = /[a-zA-Z]{3}\d{3}/;
 
-        if (!courseRE.test(courseName))
+        if (!courseRE.test(courseCode))
             submitBtn.classList.add("disabled");
         else
             submitBtn.classList.remove("disabled");
@@ -52,7 +55,7 @@ const Home = () => {
                                 {
                                     courses.map((course, idx) => {
                                         return (
-                                            <li key={idx} className="list-group-item"><Link className="text-dark text-decoration-none" to={"/courses/" + idx}>{course.term}: {course.name}</Link></li>
+                                            <li key={idx} className="list-group-item"><Link className="text-dark text-decoration-none" to={"/courses/" + idx}>{course.term}: {course.code}</Link></li>
                                         )
                                     })
                                 }
@@ -94,8 +97,26 @@ const Home = () => {
                                     </select>
                                 </div>
                                 <div className='mb-3'>
+                                    <label htmlFor="subjectSelect">Select the subject:</label>
+                                    <select required className="form-select" id='subjectSelect'>
+                                        <option value="Computer Science">Computer Science</option>
+                                        <option value="Mathematics">Mathematics</option>
+                                        <option value="Business">Business</option>
+                                        <option value="Biology">Biology</option>
+                                        <option value="Chemistry">Chemistry</option>
+                                        <option value="Art">Art</option>
+                                        <option value="Accounting">Accounting</option>
+                                        <option value="Education">Education</option>
+                                        <option value="Nursing">Nursing</option>
+                                    </select>
+                                </div>
+                                <div className='mb-3'>
+                                    <label htmlFor="courseCode">Course Code:</label>
+                                    <input required maxLength={6} type="text" className="form-control text-dark" id="courseCode" placeholder="CSC###" onChange={validateCourseCode}/>
+                                </div>
+                                <div className='mb-3'>
                                     <label htmlFor="courseName">Course Name:</label>
-                                    <input required maxLength={6} type="text" className="form-control text-dark" id="courseName" placeholder="CSC###" onChange={validateCourseName}/>
+                                    <input required type="text" className="form-control text-dark" id="courseName" placeholder="Data Structures and Algorithms"/>
                                 </div>
                             </form>
                         </div>
