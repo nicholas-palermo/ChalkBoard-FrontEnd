@@ -4,16 +4,36 @@ import { Link } from 'react-router-dom';
 
 const Home = () => {
 
-    const [courses, setCourses] = useState([{term: "Spring 2022", name: "CSC326"},{term: "Spring 2022", name: "CSC226"},{term: "Spring 2022", name: "CSC315"}]);
+    const [courses, setCourses] = useState([{term: "Spring 2022", code: "CSC326"},{term: "Spring 2022", code: "CSC226"},{term: "Spring 2022", code: "CSC315"}]);
 
-    const addCourse = () => {
-        let newTerm = document.getElementById("termSelect").value;
-        let re = /[^0-9](?=[0-9])/g; 
-        newTerm = newTerm.charAt(0).toUpperCase() + newTerm.slice(1);
-        newTerm = newTerm.replace(re, '$& ');
-        setCourses(courses => [...courses, {term: newTerm, name: document.getElementById("courseName").value}]);
+    const resetModal = () => {
+        document.getElementById("termSelect").value = "Spring2022";
+        document.getElementById("courseCode").value = "";
+        document.getElementById("courseName").value = "";
     }
 
+    const addCourse = (e) => {
+        e.preventDefault();
+        let newTerm = document.getElementById("termSelect").value;
+        let courseSubject = document.getElementById("courseSubject").value;
+        let courseCode = document.getElementById("courseCode").value;
+        let courseName = document.getElementById("courseName").value;
+        let termRE = /[^0-9](?=[0-9])/g;
+        courseCode = courseCode.slice(0,3).toUpperCase() + courseCode.slice(3);
+        newTerm = newTerm.replace(termRE, '$& ');
+        setCourses(courses => [...courses, {term: newTerm, code: courseCode}]);
+    }
+
+    const validateCourseCode = () => {
+        let courseCode = document.getElementById("courseCode").value;
+        let submitBtn = document.getElementById("submitCourseBtn");
+        let courseRE = /[a-zA-Z]{3}\d{3}/;
+
+        if (!courseRE.test(courseCode))
+            submitBtn.classList.add("disabled");
+        else
+            submitBtn.classList.remove("disabled");
+    }
 
     return (
         <Fragment>
@@ -29,24 +49,24 @@ const Home = () => {
                     <div className="col-12 col-md-4 pe-md-3 pe-lg-5">
                         <div className="card border-info text-light text-center">
                             <div className="card-header bg-info">
-                                Courses List
+                                <b>Courses List</b>
                             </div>
                             <ul className="list-group list-group-flush">
                                 {
                                     courses.map((course, idx) => {
                                         return (
-                                            <li key={idx} className="list-group-item"><Link className="text-dark text-decoration-none" to={"/courses/" + idx}>{course.term}: {course.name}</Link></li>
+                                            <li key={idx} className="list-group-item"><Link className="text-dark text-decoration-none" to={"/courses/" + idx}>{course.term}: {course.code}</Link></li>
                                         )
                                     })
                                 }
                             </ul>
-                            <button className='btn btn-success rounded-0 rounded-bottom' data-bs-toggle="modal" data-bs-target="#addCourseModal">Add Course</button>
+                            <button className='btn btn-success rounded-0 rounded-bottom' data-bs-toggle="modal" data-bs-target="#addCourseModal" onClick={resetModal}>Add Course</button>
                         </div>
                     </div>
                     <div className="col-12 col-md-8 ps-md-3 ps-lg-5 pt-5 pt-md-0">
                         <div className="card border-info text-light text-center">
                             <div className="card-header bg-info">
-                                Recently Graded
+                                <b>Recently Graded</b>
                             </div>
                             <ul className="list-group list-group-flush">
                                 <li className="list-group-item"><a href="#" className="text-dark text-decoration-none">#/##/2022: # / 100 on Assignment #</a></li>
@@ -66,25 +86,43 @@ const Home = () => {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            <form>
+                            <form onSubmit={addCourse} id='addCourse'>
                                 <div className='mb-3'>
                                     <label htmlFor="termSelect">Select the term:</label>
-                                    <select required className="form-select" id='termSelect' aria-label="Default select example">
-                                        <option value="spring2022">Spring 2022</option>
-                                        <option value="summer2022">Summer 2022</option>
-                                        <option value="fall2022">Fall 2022</option>
-                                        <option value="winter2022">Winter 2022</option>
+                                    <select required className="form-select" id='termSelect'>
+                                        <option value="Spring2022">Spring 2022</option>
+                                        <option value="Summer2022">Summer 2022</option>
+                                        <option value="Fall2022">Fall 2022</option>
+                                        <option value="Winter2022">Winter 2022</option>
                                     </select>
                                 </div>
                                 <div className='mb-3'>
+                                    <label htmlFor="subjectSelect">Select the subject:</label>
+                                    <select required className="form-select" id='subjectSelect'>
+                                        <option value="Computer Science">Computer Science</option>
+                                        <option value="Mathematics">Mathematics</option>
+                                        <option value="Business">Business</option>
+                                        <option value="Biology">Biology</option>
+                                        <option value="Chemistry">Chemistry</option>
+                                        <option value="Art">Art</option>
+                                        <option value="Accounting">Accounting</option>
+                                        <option value="Education">Education</option>
+                                        <option value="Nursing">Nursing</option>
+                                    </select>
+                                </div>
+                                <div className='mb-3'>
+                                    <label htmlFor="courseCode">Course Code:</label>
+                                    <input required maxLength={6} type="text" className="form-control text-dark" id="courseCode" placeholder="CSC###" onChange={validateCourseCode}/>
+                                </div>
+                                <div className='mb-3'>
                                     <label htmlFor="courseName">Course Name:</label>
-                                    <input required type="text" className="form-control text-dark" id="courseName" placeholder="CSC ###" />
+                                    <input required type="text" className="form-control text-dark" id="courseName" placeholder="Data Structures and Algorithms"/>
                                 </div>
                             </form>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-dark" data-bs-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-primary" onClick={addCourse}>Save changes</button>
+                            <button type="submit" className="btn btn-primary disabled" data-bs-dismiss="modal" form='addCourse' id='submitCourseBtn'>Submit</button>
                         </div>
                     </div>
                 </div>
