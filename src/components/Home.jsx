@@ -3,6 +3,7 @@ import React, { Fragment, useState } from "react";
 import { Link } from 'react-router-dom';
 
 const Home = () => {
+
     const [courses, setCourses] = useState([{term: "Spring 2022", name: "CSC326"},{term: "Spring 2022", name: "CSC226"},{term: "Spring 2022", name: "CSC315"}]);
 
     const addCourse = () => {
@@ -12,6 +13,7 @@ const Home = () => {
         newTerm = newTerm.replace(re, '$& ');
         setCourses(courses => [...courses, {term: newTerm, name: document.getElementById("courseName").value}]);
     }
+
 
     return (
         <Fragment>
@@ -55,7 +57,7 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-
+ 
             <div className="modal fade" id="addCourseModal" tabIndex="-1" aria-labelledby="modalTitle" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content text-dark">
