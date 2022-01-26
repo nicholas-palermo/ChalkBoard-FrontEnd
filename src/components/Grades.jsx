@@ -2,8 +2,8 @@ import React, { Fragment } from "react";
 
 const Grades = () => {
     const getGrades=(e)=>{
-        let gradebox=document.getElementById("grades");
-        if (e.value=="class-1"){
+        let gradebox = document.getElementById("grades");
+        if (e.value === "class-1"){
         }
     }
     return (
