@@ -10,6 +10,8 @@ function Login() {
         console.log(email);
     }, [email])
 
+
+
     const onSubmitForm = async (e) => {
         e.preventDefault();
         try {
@@ -19,7 +21,7 @@ function Login() {
         } catch (err) {
             console.error(err.message);
         }
-    } 
+    }
 
     return (
         <div className="d-flex justify-content-center flex-column">
