@@ -9,17 +9,19 @@ const Grades = () => {
     return (
         <Fragment>
             <h1 className="d-flex justify-content-center my-3 mt-4">Grades</h1>
-            <div className="container-lg d-flex flex-row">
-                <div className="row d-flex justify-content-between">
-                    <div className="col-12 col-md-6 my-2 courses">
-                        <div className="d-flex justify-content-center flex-wrap">
-                            <button className="col-5 col-md-12 my-2 p-3 p-md-5 m-2 btn btn-info fs-5" value="class-1" onClick={getGrades}>CSC 111-D004<br/>LEC(56468)</button>
-                            <button className="col-5 col-md-12 my-2 p-3 p-md-5 m-2 btn btn-info fs-5" value="class-2" onClick={getGrades}>CSC 222-D004<br/>LEC(51488)</button>
-                            <button className="col-5 col-md-12 my-2 p-3 p-md-5 m-2 btn btn-info fs-5" value="class-3" onClick={getGrades}>CSC 333-D004<br/>LEC(87645)</button>
-                            <button className="col-5 col-md-12 my-2 p-3 p-md-5 m-2 btn btn-info fs-5" value="class-4" onClick={getGrades}>CSC 444-D004<br/>LEC(43685)</button>
-                        </div>
-                    </div>
+            <div className="container-lg d-flex flex-column justify-content-between">
+                <div className="row d-flex justify-content-center">
                     <div className="col-12 col-md-6 grades mb-5" id="grades">
+                        <div class="dropdown">
+                            <button class="btn btn-info dropdown-toggle w-100" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                Choose Course
+                            </button>
+                            <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item text-center" value="class1">CSC 338</a></li>
+                                <li><a class="dropdown-item text-center" value="class2">MTH 229</a></li>
+                                <li><a class="dropdown-item text-center" value="class3">ART 101</a></li>
+                            </ul>
+                        </div>
                         <div className="card mt-3">
                             <div className="card-body d-flex flex-row justify-content-between">
                                 <h5 className="card-title m-0"><u><strong>Assignment Name</strong></u></h5>

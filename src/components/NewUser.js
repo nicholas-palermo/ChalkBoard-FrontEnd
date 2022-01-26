@@ -4,6 +4,7 @@ function NewUser() {
 
     const [email, setEmail] = useState("");
     const [pass, setPass] = useState("");
+    const [c_pass, setC_Pass] = useState("");
     const [fname, setfName] = useState("");
     const [lname, setlName] = useState("");
 
@@ -16,10 +17,12 @@ function NewUser() {
     const onSubmitForm = async (e) => {
         e.preventDefault();
         try {
-            const body = { userType, fname, lname, email, pass }
+            const body = { userType, fname, lname, email, pass, c_pass }
+            const matches = pass === c_pass;
+            matches ? alert("MATCHED") : alert("NO MATCH"); 
             const response = await fetch("http://localhost:5000/signup", {
                 method: "POST",
-                headers: { "Content-Type": "application/json"},
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
             });
 
@@ -27,7 +30,7 @@ function NewUser() {
         } catch (err) {
             console.error(err.message);
         }
-    } 
+    }
 
     return (
         <div className="d-flex justify-content-center flex-column">
@@ -53,11 +56,12 @@ function NewUser() {
                         <label htmlFor="pass" className="ps-3">Password</label>
                     </div>
                     <div className="form-floating p-1 my-1">
-                        <input required type="password" className="form-control" id="comparePass" placeholder="Password" />
+                        <input required type="password" className="form-control" id="comparePass" placeholder="Password" onChange={(e) => {setC_Pass(e.target.value)}}/>
                         <label htmlFor="comparePass" className="ps-3">Re-Enter Password</label>
                     </div>
                         <button type="submit" className="btn btn-lg btn-dark col-6 mx-auto m-2">Sign up</button>
                 </div>
+
             </form>
         </div>
     )
