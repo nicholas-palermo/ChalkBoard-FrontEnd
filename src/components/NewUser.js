@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "../App.css";
-import 'bootswatch/dist/minty/bootstrap.min.css';
-
 
 function NewUser() {
 
@@ -36,45 +33,38 @@ function NewUser() {
     }
 
     return (
-        <center>
-
-            <div className="w-50 rounded-top">
-                <label className="form-label mt-4"><h1 className="title "><strong>Chalkboard</strong> Sign up</h1></label><br />
-
+        <div className="d-flex justify-content-center flex-column">
+            <div className="col-12 my-3 text-center">
+                <h1 className="my-3"><strong>Chalkboard</strong> Sign up</h1>
             </div>
-            <form onSubmit={onSubmitForm} data-bitwarden-watching="1">
-                <div className="credentials  bg-primary w-50 rounded-bottom">
-                    <div className="form-floating  p-2">
-                        <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com" onChange={(e) => { setEmail(e.target.value) }} />
-                        <label htmlFor="floatingInput">Email</label>
+            <form onSubmit={onSubmitForm}>
+                <div className="col-10 col-md-8 col-lg-6 d-flex flex-column mx-auto bg-primary rounded p-2 mb-5">
+                    <div className="form-floating p-1 my-1">
+                        <input required type="email" className="form-control" id="email" placeholder="name@example.com" onChange={(e) => {setEmail(e.target.value)}} />
+                        <label htmlFor="email" className="ps-3">Email</label>
                     </div>
-                    <div className="form-floating  p-2">
-                        <input type="text" className="form-control" id="floatingInputFirstName" placeholder="firstName" onChange={(e) => { setfName(e.target.value) }} />
-                        <label htmlFor="floatingInput">First Name</label>
+                    <div className="form-floating p-1 my-1">
+                        <input required type="text" className="form-control" id="fname" placeholder="firstName" onChange={(e) => {setfName(e.target.value)}}/>
+                        <label htmlFor="fname" className="ps-3">First Name</label>
                     </div>
-                    <div className="form-floating  p-2">
-                        <input type="text" className="form-control" id="floatingInputLastName" placeholder="lastName" onChange={(e) => { setlName(e.target.value) }} />
-                        <label htmlFor="floatingInput">Last Name</label>
+                    <div className="form-floating p-1 my-1">
+                        <input required type="text" className="form-control" id="lname" placeholder="lastName" onChange={(e) => {setlName(e.target.value)}}/>
+                        <label htmlFor="lname" className="ps-3">Last Name</label>
                     </div>
-                    <div className="form-floating p-2">
-                        <input type="password" className="form-control" id="floatingPassword" placeholder="Password" onChange={(e) => { setPass(e.target.value) }} />
-                        <label htmlFor="floatingPassword">Password</label>
+                    <div className="form-floating p-1 my-1">
+                        <input required type="password" className="form-control" id="pass" placeholder="Password" onChange={(e) => {setPass(e.target.value)}}/>
+                        <label htmlFor="pass" className="ps-3">Password</label>
                     </div>
-                    <div className="col form-floating p-2">
-                        <input type="password" className="form-control" id="floatingPassword2" placeholder="Password" onChange={(e) => { setC_Pass(e.target.value) }} />
-                        <label htmlFor="floatingPassword">Re-Enter Password</label>
+                    <div className="form-floating p-1 my-1">
+                        <input required type="password" className="form-control" id="comparePass" placeholder="Password" onChange={(e) => {setC_Pass(e.target.value)}}/>
+                        <label htmlFor="comparePass" className="ps-3">Re-Enter Password</label>
                     </div>
-                </div>
-                <div className="buttonContainer mt-2 pb-3">
-                    <button type="submit" className="btn btn-lg btn-dark">Sign up</button>
-
+                        <button type="submit" className="btn btn-lg btn-dark col-6 mx-auto m-2">Sign up</button>
                 </div>
 
             </form>
-
-        </center>
+        </div>
     )
-
 }
 
 export default NewUser

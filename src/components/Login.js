@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../App.css";
-import 'bootswatch/dist/minty/bootstrap.min.css';
 import { Link } from 'react-router-dom';
-
-
 
 function Login() {
 
@@ -21,7 +17,6 @@ function Login() {
         try {
             const response = await fetch(`http://localhost:5000/login/${email}`);
 
-
             console.log(response);
         } catch (err) {
             console.error(err.message);
@@ -29,45 +24,38 @@ function Login() {
     }
 
     return (
-        <div>
-
-            <center>
-                <div className="container cw-50 rounded-top">
-                    <label className="form-label mt-4"><h1 className="title "><strong>Chalkboard</strong> Login</h1></label><br />
-
-                </div>
-                <div className="form-group ">
-
-                    <div className="credentials bg-primary w-50 rounded p-2">
-                        <form onSubmit={onSubmitForm}>
-                            <div className="form-floating p-1">
-                                <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com" onChange={(e) => { setEmail(e.target.value) }} />
-                                <label htmlFor="floatingInput" className="ps-3">Email</label>
-                                <sub className="text-light">ex.John.Doe29@login.chalkboard.edu</sub>
-                            </div>
-                            <div className="form-floating p-1">
-                                <input type="password" className="form-control" id="floatingPassword" placeholder="Password" onChange={(e) => { setPass(e.target.value) }} />
-                                <label htmlFor="floatingPassword" className="ps-3">Password</label>
-                                <sub className="text-light">ex.DoeJohn</sub>
-                            </div>
-                            <div className="buttonContainer mt-2">
-                                <button type="submit" className="btn btn-lg btn-dark ">Login</button>
-                                <div className="support-links m-3 p-2">
-                                    <Link to="/newUser" className="text-light">New User</Link>
-                                    <span className="seperator m-1">|</span>
-
-                                    <Link to="/changeUsername" className="text-light">Change Email</Link>
-                                    <span className="seperator m-1">|</span>
-
-                                    <Link to="/changePassword" className="text-light">Forgot Password</Link>
-
-                                </div>
-                            </div>
-                        </form>
+        <div className="d-flex justify-content-center flex-column">
+            <div className="col-12 text-center my-3">
+                <h1 className="my-3"><strong>Chalkboard</strong> Login</h1>
+            </div>
+            <div className="credentials bg-primary col-10 col-md-8 col-lg-6 rounded p-2 mx-auto mb-5">
+                <form onSubmit={onSubmitForm}>
+                    <div className="form-floating p-1 mt-1">
+                        <input required type="email" className="form-control" id="floatingInput" placeholder="name@example.com"  onChange={(e) => {setEmail(e.target.value)}}/>
+                        <label htmlFor="floatingInput" className="ps-3">Email</label>
+                        <div className="d-flex justify-content-center py-2">
+                            <sub className="text-light">ex.John.Doe29@login.chalkboard.edu</sub>
+                        </div>
                     </div>
-                </div>
-            </center>
+                    <div className="form-floating p-1">
+                        <input required type="password" className="form-control" id="floatingPassword" placeholder="Password" onChange={(e) => {setPass(e.target.value)}}/>
+                        <label htmlFor="floatingPassword" className="ps-3">Password</label>
+                        <div className="d-flex justify-content-center py-2">
+                            <sub className="text-light">ex.DoeJohn</sub>
+                        </div>
+                    </div>
+                    <div className="buttonContainer mt-3 d-flex justify-content-center flex-column">
+                        <button type="submit" className="btn btn-lg btn-dark col-6 mx-auto">Login</button>
+                        <div className="support-links m-3 mb-0 p-2 d-flex justify-content-center">
+                            <Link to="/newUser" className="text-light">Sign Up</Link>
+                            <span className="separator m-1">|</span>
 
+                            <Link to="/changePassword" className="text-light">Forgot Password</Link>
+                            <span className="separator m-1">|</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
             {/* <Credentials></Credentials> */}
         </div>
     );
