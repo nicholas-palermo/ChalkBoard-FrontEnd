@@ -56,6 +56,7 @@ function Login(props) {
                     </div>
                     <div className="buttonContainer mt-3 d-flex justify-content-center flex-column">
                         <button type="submit" className="btn btn-lg btn-dark col-6 mx-auto">Login</button>
+                        { redirect ? <Navigate to="/" /> : <Fragment /> }
                         <div className="support-links m-3 mb-0 p-2 d-flex justify-content-center">
                             <Link to="/newUser" className="text-light">Sign Up</Link>
                             <span className="separator m-1">|</span>
