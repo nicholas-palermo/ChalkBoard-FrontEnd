@@ -39,8 +39,8 @@ class App extends React.Component{
 
           <Routes>
             <Route exact path="/" element={<Home user={this.state.userObject} />} />
-            <Route exact path="/grades" element={<Grades />}></Route>
-            <Route exact path="/courses/:courseID" element={<Assignments />}></Route>
+            <Route exact path="/grades" element={<Grades user={this.state.userObject}/>}></Route>
+            <Route exact path="/courses/:courseID" element={<Assignments user={this.state.userObject}/>}></Route>
             <Route exact path="/login" element={<Login getUser={this.getUser} />}></Route>
             <Route exact path="/newUser" element={<NewUser />}></Route>
             <Route exact path="/changePassword" element={<ChangePassword />}></Route>

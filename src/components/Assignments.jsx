@@ -1,10 +1,10 @@
 import React, { Fragment, useEffect, useState } from "react";
 import Assignment from "./Assignment";
 
-const Assignments = () => {
+const Assignments = (props) => {
     const [view, setView] = useState("student");
     const [assignments, setAssignments] = useState([]);
-
+    const [assignmentID, setAssignmentID] = useState(0);
 
     const getAssignments = async () => {
         setAssignments([]);
@@ -17,22 +17,14 @@ const Assignments = () => {
                     courseAssignments = response;
                 })
                 .then(() => {
-                    console.log(courseAssignments);
                     for (let i = 0; i < courseAssignments.length; i++) {
                         setAssignments(assignments => [...assignments, {assignmentid: courseAssignments[i].assignmentid, title: courseAssignments[i].title, description: courseAssignments[i].description, datedue: courseAssignments[i].datedue.slice(0,10)}]);
                     }
-                    console.log(assignments.length);
                 })
         } catch (err) {
             console.error(err.message);
         }
     }
-
-    useEffect(() => {
-      console.log(assignments);
-    }, [assignments]);
-    
-
 
     useEffect(() => {
         if (view !== "student") {
@@ -47,7 +39,7 @@ const Assignments = () => {
             <div className="container">
                 <div className="row mb-5">
                     {
-                        view === "student" ? <Assignment></Assignment> : <Fragment></Fragment>
+                        view === "student" ? <Assignment assignmentID={assignmentID} studentID={props.user.studentid}></Assignment> : <Fragment></Fragment>
                     }
                     <div className="col-12 col-md-6 col-lg-8" id="assignmentsList">
                         <div className="card h-100">
@@ -55,10 +47,11 @@ const Assignments = () => {
                                 {
                                     assignments.map(assignment => {
                                         return assignment.length ? <li>No Results.</li> : (
-                                            <li type="button" className="list-group-item p-0">
-                                                <h5 className="card-title bg-info p-3 text-light d-flex">{assignment.title}<div className="ms-auto">Due Date: {assignment.datedue}</div></h5>
+                                            <li role="button" className="list-group-item p-0">
+                                               <h5 id={assignment.assignmentid} onClick={(e) => setAssignmentID(e.target.id)} className="card-title bg-info p-3 text-light d-flex">{assignment.title}<div className="ms-auto">Due Date: {assignment.datedue}</div></h5>
                                                 <p className="card-text px-3 pb-3">{assignment.description}</p>
                                             </li>
+                                            
                                         )
                                     })
                                 }

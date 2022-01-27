@@ -1,23 +1,105 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 
-const Grades = () => {
+const Grades = (props) => {
     const {grades, setGrades}=useState([]);
-    const getClasses= async(e)=>{
-        e.preventDefault();
+
+    const [courses,setCourses]=useState([]);
+    const [studentID, setstudentID] = useState();
+    const [assignments, setAssignments] = useState([]);
+    const [assignmentID, setAssignmentID] = useState(0);
+    const [grade, setGrade] = useState();
+
+
+    useEffect(() => {
+        setstudentID(props.user.studentid);
+    }, [props]);
+
+    useEffect(() => {
+        onLoad();
+    }, [studentID]);
+    
+    useEffect(() => {
+      console.log(courses);
+    }, [courses]);
+    
+    useEffect(() => {
+      for(let i = 0; i < assignments.length; i++) {
+        getGrade(assignments[i].assignmentid);
+      }
+    }, [assignments]);
+
+    useEffect(() => {
+      console.log(grade);
+    }, [grade]);
+    
+
+    const onLoad = async () => {
+        
+        if (studentID) {
+            setCourses([]);
+            try {
+                let studentCourses;
+                await fetch(`http://localhost:5000/courses/${studentID}`)
+                 .then((response) => response.json())
+                 .then((response) => studentCourses = response)
+                 .then(() => {
+                     let termRE = /[^0-9](?=[0-9])/g;
+                     for(let i = 0; i < studentCourses.length; i++) {
+                         let term = studentCourses[i].term.replace(termRE, '$& ');
+                         term = term[0].toUpperCase() + term.slice(1);
+                         setCourses(courses => [...courses, {term: term, code: studentCourses[i].courseid}]);
+                     }
+                 })
+            } catch (err) {
+                console.error(err.message);
+            }
+        }
+    }
+
+    const getAssignments = async (courseID) => {
+        setAssignments([]);
         try {
-            const response=await (await fetch('http://localhost:5000/login')).json();
-            setGrades(response.data);
+            let courseAssignments;
+            await fetch(`http://localhost:5000/Assignments/${courseID}`)
+                .then((response) => response.json())
+                .then((response) => {
+                    courseAssignments = response;
+                })
+                .then(() => {
+                    for (let i = 0; i < courseAssignments.length; i++) {
+                        setAssignments(assignments => [...assignments, {assignmentid: courseAssignments[i].assignmentid, title: courseAssignments[i].title, description: courseAssignments[i].description, datedue: courseAssignments[i].datedue.slice(0,10)}]);
+                    }
+                })
         } catch (err) {
             console.error(err.message);
         }
     }
-    const changeCourse = (e)=>{
-        let title=document.getElementById("courseName");
-        title.innerText=e.target.value;
-        getClasses();
-        
 
+
+    const getGrade = async (assignmentID) => {
+        if (assignmentID !== 0) {
+            try {
+                await fetch(`http://localhost:5000/grades/${studentID}/${assignmentID}/`)
+                    .then((response) => response.json())
+                    .then((response) => {
+                        setGrade(response);
+                    })
+            } catch (err) {
+                setGrade(-1);
+                console.error(err.message);
+            }
+        }
     }
+
+
+    const changeCourse = (e) => {
+        let title = document.getElementById("courseName");
+        title.innerText = e.target.value;
+        getAssignments(e.target.value);
+    }
+
+
+    
     return (
         <Fragment>
             <h1 className="d-flex justify-content-center my-3 mt-4">Grades</h1>
@@ -29,9 +111,12 @@ const Grades = () => {
                                 Choose Course
                             </button>
                             <ul className="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1">
-                                <li><button className="dropdown-item text-center" value="CSC338" onClick={changeCourse}>CSC 338</button></li>
-                                <li><button className="dropdown-item text-center" value="MTH229" onClick={changeCourse}>MTH 229</button></li>
-                                <li><button className="dropdown-item text-center" value="ART101" onClick={changeCourse}>ART 101</button></li>
+                                {
+
+                                    courses.map(course => {
+                                       return <li><button className="dropdown-item text-center" value={course.code} onClick={changeCourse}>{course.code}</button></li>
+                                    })
+                                }
                             </ul>
                         </div>
                         <div className="d-flex justify-content-center mb-0 mt-3">
@@ -40,123 +125,31 @@ const Grades = () => {
                         <div className="card mt-3">
                             <div className="card-body d-flex flex-row justify-content-between">
                                 <h5 className="card-title m-0"><u><strong>Assignment Name</strong></u></h5>
-                                <h5><u><strong>Date Updated</strong></u></h5>
+                                <h5><u><strong>Date Graded</strong></u></h5>
                                 <h5><u><strong>Grade</strong></u></h5>
                             </div>
                         </div>
                         <div className="cards-container" id="card-deck">
-                            <div className="card">
-                                <div className="card-body d-flex flex-row justify-content-between">
-                                    <div>
-                                        <h5 className="card-title m-0">Assignment X</h5>
-                                        <sup className="m-0">Due Date:xx/xx/xxxx</sup>
-                                    </div>
-                                    <div className="d-flex align-items-center">
-                                        <p className="m-0">xx/xx/xxxx</p>
-                                    </div>
-                                    <div className="d-flex align-items-center">
-                                        <p className="badge fs-5 bg-primary text-wrap m-0">84%</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="card">
-                                <div className="card-body d-flex flex-row justify-content-between">
-                                    <div>
-                                        <h5 className="card-title m-0">Assignment X</h5>
-                                        <sup className="m-0">Due Date:xx/xx/xxxx</sup>
-                                    </div>
-                                    <div className="d-flex align-items-center">
-                                        <p className="m-0">xx/xx/xxxx</p>
-                                    </div>
-                                    <div className="d-flex align-items-center">
-                                        <p className="badge fs-5 bg-primary text-wrap m-0">84%</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="card">
-                                <div className="card-body d-flex flex-row justify-content-between">
-                                    <div>
-                                        <h5 className="card-title m-0">Assignment X</h5>
-                                        <sup className="m-0">Due Date:xx/xx/xxxx</sup>
-                                    </div>
-                                    <div className="d-flex align-items-center">
-                                        <p className="m-0">xx/xx/xxxx</p>
-                                    </div>
-                                    <div className="d-flex align-items-center">
-                                        <p className="badge fs-5 bg-primary text-wrap m-0">84%</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="card">
-                                <div className="card-body d-flex flex-row justify-content-between">
-                                    <div>
-                                        <h5 className="card-title m-0">Assignment X</h5>
-                                        <sup className="m-0">Due Date:xx/xx/xxxx</sup>
-                                    </div>
-                                    <div className="d-flex align-items-center">
-                                        <p className="m-0">xx/xx/xxxx</p>
-                                    </div>
-                                    <div className="d-flex align-items-center">
-                                        <p className="badge fs-5 bg-primary text-wrap m-0">84%</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="card">
-                                <div className="card-body d-flex flex-row justify-content-between">
-                                    <div>
-                                        <h5 className="card-title m-0">Assignment X</h5>
-                                        <sup className="m-0">Due Date:xx/xx/xxxx</sup>
-                                    </div>
-                                    <div className="d-flex align-items-center">
-                                        <p className="m-0">xx/xx/xxxx</p>
-                                    </div>
-                                    <div className="d-flex align-items-center">
-                                        <p className="badge fs-5 bg-primary text-wrap m-0">84%</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="card">
-                                <div className="card-body d-flex flex-row justify-content-between">
-                                    <div>
-                                        <h5 className="card-title m-0">Assignment X</h5>
-                                        <sup className="m-0">Due Date:xx/xx/xxxx</sup>
-                                    </div>
-                                    <div className="d-flex align-items-center">
-                                        <p className="m-0">xx/xx/xxxx</p>
-                                    </div>
-                                    <div className="d-flex align-items-center">
-                                        <p className="badge fs-5 bg-primary text-wrap m-0">84%</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="card">
-                                <div className="card-body d-flex flex-row justify-content-between">
-                                    <div>
-                                        <h5 className="card-title m-0">Assignment X</h5>
-                                        <sup className="m-0">Due Date:xx/xx/xxxx</sup>
-                                    </div>
-                                    <div className="d-flex align-items-center">
-                                        <p className="m-0">xx/xx/xxxx</p>
-                                    </div>
-                                    <div className="d-flex align-items-center">
-                                        <p className="badge fs-5 bg-primary text-wrap m-0">84%</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="card">
-                                <div className="card-body d-flex flex-row justify-content-between">
-                                    <div>
-                                        <h5 className="card-title m-0">Assignment X</h5>
-                                        <sup className="m-0">Due Date:xx/xx/xxxx</sup>
-                                    </div>
-                                    <div className="d-flex align-items-center">
-                                        <p className="m-0">xx/xx/xxxx</p>
-                                    </div>
-                                    <div className="d-flex align-items-center">
-                                        <p className="badge fs-5 bg-primary text-wrap m-0">84%</p>
-                                    </div>
-                                </div>
-                            </div>
+                            {
+                                assignments.map(assignment => {
+                                    return (
+                                        <div className="card">
+                                            <div className="card-body d-flex flex-row justify-content-between">
+                                                <div>
+                                                    <h5 className="card-title m-0">{assignment.title}</h5>
+                                                    <sup className="m-0">Due Date: {assignment.datedue}</sup>
+                                                </div>
+                                                <div className="d-flex align-items-center">
+                                                    <p className="m-0">xx/xx/xxxx</p>
+                                                </div>
+                                                <div className="d-flex align-items-center">
+                                                    <p className="badge fs-5 bg-primary text-wrap m-0">%</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            }
                         </div>
                     </div>
                 </div>
