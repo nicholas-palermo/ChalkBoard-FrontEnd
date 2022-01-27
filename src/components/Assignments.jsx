@@ -3,31 +3,47 @@ import Assignment from "./Assignment";
 
 const Assignments = () => {
     const [view, setView] = useState("student");
+    const [assignments, setAssignments] = useState([]);
+
 
     const getAssignments = async () => {
+        setAssignments([]);
         try {
-            
-            const response = await fetch("http://localhost:5000/Assignments/CSC330");
-            const jsonData = await response.json();
-
-            console.log(jsonData);
-
+            let courseAssignments;
+            let courseID = window.location.href.slice(-6);
+            await fetch(`http://localhost:5000/Assignments/${courseID}`)
+                .then((response) => response.json())
+                .then((response) => {
+                    courseAssignments = response;
+                })
+                .then(() => {
+                    console.log(courseAssignments);
+                    for (let i = 0; i < courseAssignments.length; i++) {
+                        setAssignments(assignments => [...assignments, {assignmentid: courseAssignments[i].assignmentid, title: courseAssignments[i].title, description: courseAssignments[i].description, datedue: courseAssignments[i].datedue.slice(0,10)}]);
+                    }
+                    console.log(assignments.length);
+                })
         } catch (err) {
             console.error(err.message);
         }
     }
 
+    useEffect(() => {
+      console.log(assignments);
+    }, [assignments]);
+    
 
 
     useEffect(() => {
         if (view !== "student") {
             document.getElementById("assignmentsList").classList = "col-12";
         }
+        getAssignments();
     }, []);
 
     return (
         <Fragment>
-            <h1 className="text-center my-5">CSC789 Assignments</h1>
+            <h1 className="text-center my-5">{window.location.href.slice(-6)} Assignments</h1>
             <div className="container">
                 <div className="row mb-5">
                     {
@@ -36,18 +52,16 @@ const Assignments = () => {
                     <div className="col-12 col-md-6 col-lg-8" id="assignmentsList">
                         <div className="card h-100">
                             <ul className="list-group list-group-flush">
-                                <li className="list-group-item p-0">
-                                    <h5 className="card-title bg-info p-3 text-light d-flex">Assignment #1<div className="ms-auto">Due Date: 2/12/22</div></h5>
-                                    <p className="card-text px-3 pb-3">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsum, voluptate blanditiis. Iste delectus velit doloribus, eaque, laudantium sequi at nostrum, qui exercitationem facilis est et asperiores eveniet saepe ipsam! Autem.</p>
-                                </li>
-                                <li className="list-group-item p-0">
-                                    <h5 className="card-title bg-info p-3 text-light d-flex">Assignment #2<div className="ms-auto">Due Date: 2/22/22</div></h5>
-                                    <p className="card-text px-3 pb-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi dignissimos rerum ut fugit nostrum illo dolorum ducimus, officiis consequuntur exercitationem, vel velit magnam? Voluptatum consequuntur inventore provident dicta tenetur ex!</p>
-                                </li>
-                                <li className="list-group-item p-0">
-                                    <h5 className="card-title bg-info p-3 text-light d-flex">Assignment #3<div className="ms-auto">Due Date: 2/32/22</div></h5>
-                                    <p className="card-text px-3 pb-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi maiores fugiat mollitia perferendis quas quibusdam, accusamus, consequuntur eum aut et voluptate, possimus saepe. Necessitatibus, sit officiis blanditiis sed aperiam molestias.</p>
-                                </li>
+                                {
+                                    assignments.map(assignment => {
+                                        return assignment.length ? <li>No Results.</li> : (
+                                            <li type="button" className="list-group-item p-0">
+                                                <h5 className="card-title bg-info p-3 text-light d-flex">{assignment.title}<div className="ms-auto">Due Date: {assignment.datedue}</div></h5>
+                                                <p className="card-text px-3 pb-3">{assignment.description}</p>
+                                            </li>
+                                        )
+                                    })
+                                }
                             </ul>
                             {
                                 view !== "student" ? <button className='btn btn-success rounded-0 rounded-bottom' id="addAssignmentBtn" data-bs-toggle="modal" data-bs-target="#addAssignmentModal">Add Assignment</button> : <Fragment></Fragment>
