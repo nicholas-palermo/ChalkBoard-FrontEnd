@@ -1,22 +1,14 @@
 import React, { Fragment, useState, useEffect } from "react";
+import { Navigate } from "react-router-dom";
 
 const Grades = (props) => {
     const {grades, setGrades}=useState([]);
-
     const [courses,setCourses]=useState([]);
     const [studentID, setstudentID] = useState();
     const [assignments, setAssignments] = useState([]);
     const [assignmentID, setAssignmentID] = useState(0);
     const [grade, setGrade] = useState();
 
-
-    useEffect(() => {
-        setstudentID(props.user.studentid);
-    }, [props]);
-
-    useEffect(() => {
-        onLoad();
-    }, [studentID]);
     
     useEffect(() => {
       console.log(courses);
@@ -34,7 +26,6 @@ const Grades = (props) => {
     
 
     const onLoad = async () => {
-        
         if (studentID) {
             setCourses([]);
             try {
@@ -55,6 +46,14 @@ const Grades = (props) => {
             }
         }
     }
+
+    useEffect(() => {
+        setstudentID(props.user.studentid);
+    }, [props]);
+
+    useEffect(() => {
+        onLoad();
+    }, [studentID]);
 
     const getAssignments = async (courseID) => {
         setAssignments([]);
@@ -140,7 +139,7 @@ const Grades = (props) => {
                                                     <sup className="m-0">Due Date: {assignment.datedue}</sup>
                                                 </div>
                                                 <div className="d-flex align-items-center">
-                                                    <p className="m-0">xx/xx/xxxx</p>
+                                                    <p className="m-0">Grade Pending</p>
                                                 </div>
                                                 <div className="d-flex align-items-center">
                                                     <p className="badge fs-5 bg-primary text-wrap m-0">%</p>
