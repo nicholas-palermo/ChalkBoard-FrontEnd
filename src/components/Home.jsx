@@ -1,6 +1,6 @@
 import '../App.css'
 import React, { Fragment, useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 const Home = (props) => {
@@ -8,7 +8,8 @@ const Home = (props) => {
     const [courses, setCourses] = useState([]);
 
     const [fname, setfname] = useState();
-    const [studentID, setStudentID] = useState();
+    const [studentID, setStudentID] = useState(-1);
+    
 
     //On load function - sets up dashboard with information from database
     const onLoad = async () => {
@@ -116,6 +117,7 @@ const Home = (props) => {
 
     return (
         <Fragment>
+            { studentID === undefined ? <Navigate to="/login" /> : <Fragment /> }
             <div className="container mt-3 text-center">
                 <div className="alert alert-info alert-dismissible fade show" role="alert">
                     <strong>Example Alert:</strong> Extra information goes here.
