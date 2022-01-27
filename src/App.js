@@ -5,9 +5,7 @@ import Grades from './components/Grades';
 import Assignments from './components/Assignments';
 import Login from "./components/Login";
 import NewUser from "./components/NewUser";
-import ManageAccount from "./components/ManageAccount";
 import ChangePassword from "./components/ChangePassword";
-import ChangeEmail from "./components/ChangeEmail";
 import Navbar from './components/shared/Navbar';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -51,9 +49,7 @@ class App extends React.Component{
             <Route exact path="/courses/:courseID" element={<Assignments />}></Route>
             <Route exact path="/login" element={<Login getUser={this.getUser} />}></Route>
             <Route exact path="/newUser" element={<NewUser />}></Route>
-            <Route exact path="/changeUsername" element={<ChangeEmail />}></Route>
             <Route exact path="/changePassword" element={<ChangePassword />}></Route>
-            <Route exact path="/manageAccount" element={<ManageAccount />}></Route>
           </Routes>
         </Router>
       </div>

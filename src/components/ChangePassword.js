@@ -14,7 +14,7 @@ function ChangePassword() {
                             <sub className="text-light">ex.John.Doe29@login.chalkboard.edu</sub>
                         </div>
                         <div className="buttonContainer mt-2">
-                            <button type="button" className="btn btn-lg btn-dark" data-bs-toggle="modal" data-bs-targetad="#resetPasswordModal">Send Resend Code</button>
+                            <button type="button" className="btn btn-lg btn-dark" data-bs-toggle="modal" data-bs-target="#resetPasswordModal">Send Reset Code</button>
                         </div>
                     </div>
                 </div>
