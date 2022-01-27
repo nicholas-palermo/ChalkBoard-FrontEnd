@@ -151,11 +151,11 @@ const Home = (props) => {
             { studentID === undefined ? <Navigate to="/login" /> : <Fragment /> }
             <div className="container mt-3 text-center">
                 <div className="alert alert-info alert-dismissible fade show" role="alert">
-                    <strong>Example Alert:</strong> Extra information goes here.
+                    <strong>Alert:</strong> Last day to drop classes without grade of 'W' is 02/17/2022!.
                     <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             </div>
-            <h1 className="pt-5 text-center">Welcome, {fname}</h1>
+            <h1 className="pt-5 text-center">Welcome, {fname}!</h1>
             <div className="container pt-0 pt-md-3 pt-lg-5 my-5">
                 <div className="row">
                     <div className="col-12 col-md-4 pe-md-3 pe-lg-5">

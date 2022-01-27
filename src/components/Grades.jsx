@@ -2,26 +2,17 @@ import React, { Fragment, useState, useEffect } from "react";
 import '../App.css';
 
 const Grades = (props) => {
-    const {grades, setGrades}=useState([]);
     const [courses,setCourses]=useState([]);
     const [studentID, setstudentID] = useState();
     const [assignments, setAssignments] = useState([]);
-    const [assignmentID, setAssignmentID] = useState(0);
-    const [grade, setGrade] = useState();
+    const [grade, SetGrade] = useState(-1);
+    
 
     useEffect(() => {
-      console.log(courses);
-    }, [courses]);
-    
-    useEffect(() => {
-      for(let i = 0; i < assignments.length; i++) {
-        getGrade(assignments[i].assignmentid);
-      }
+      console.log(assignments);
     }, [assignments]);
 
-    useEffect(() => {
-      console.log(grade);
-    }, [grade]);
+
     
     const onLoad = async () => {
         if (studentID) {
@@ -44,6 +35,21 @@ const Grades = (props) => {
             }
         }
     }
+/*
+    useEffect(() => {
+        console.log(grade)
+        document.getElementById("gradeCard").classList.remove("bg-grey", "bg-warning", "bg-danger", "bg-success");
+        if (grade >= 80) {
+            document.getElementById("gradeCard").classList.add("bg-success");
+        } else if (grade >= 65 && grade < 80) {
+            document.getElementById("gradeCard").classList.add("bg-warning");
+        } else if (grade >=0 && grade < 65) {
+            document.getElementById("gradeCard").classList.add("bg-danger");
+        } else {
+            document.getElementById("gradeCard").classList.add("bg-grey");
+        }
+    }, [grade])
+*/
 
     useEffect(() => {
         setstudentID(props.user.studentid);
@@ -57,33 +63,19 @@ const Grades = (props) => {
         setAssignments([]);
         try {
             let courseAssignments;
-            await fetch(`http://localhost:5000/Assignments/${courseID}`)
+            await fetch(`http://localhost:5000/Grades/${courseID}/${studentID}`)
                 .then((response) => response.json())
                 .then((response) => {
                     courseAssignments = response;
                 })
                 .then(() => {
                     for (let i = 0; i < courseAssignments.length; i++) {
-                        setAssignments(assignments => [...assignments, {assignmentid: courseAssignments[i].assignmentid, title: courseAssignments[i].title, description: courseAssignments[i].description, datedue: courseAssignments[i].datedue.slice(0,10)}]);
+                        setAssignments(assignments => [...assignments, {assignmentid: courseAssignments[i].assignmentid, title: courseAssignments[i].title, description: courseAssignments[i].description, datedue: courseAssignments[i].datedue.slice(0,10), grade: courseAssignments[i].grade, maxGrade: courseAssignments[i].maxgrade ,dateGraded: courseAssignments[i].dategraded.slice(0,10)}]);
+                        SetGrade(courseAssignments[i].grade);
                     }
                 })
         } catch (err) {
             console.error(err.message);
-        }
-    }
-
-    const getGrade = async (assignmentID) => {
-        if (assignmentID !== 0) {
-            try {
-                await fetch(`http://localhost:5000/grades/${studentID}/${assignmentID}/`)
-                    .then((response) => response.json())
-                    .then((response) => {
-                        setGrade(response);
-                    })
-            } catch (err) {
-                setGrade(-1);
-                console.error(err.message);
-            }
         }
     }
 
@@ -132,10 +124,10 @@ const Grades = (props) => {
                                                     <sup className="m-0">Due Date: {assignment.datedue}</sup>
                                                 </div>
                                                 <div className="d-flex align-items-center justify-content-end flex-even">
-                                                    <p className="m-0">Grade Pending</p>
+                                                    <p className="m-0">{assignment.dateGraded}</p>
                                                 </div>
                                                 <div className="d-flex align-items-center justify-content-end flex-even">
-                                                    <p className="badge fs-5 bg-primary text-wrap m-0">%</p>
+                                                    <p id="gradeCard" className="badge fs-5 bg-grey text-wrap m-0">{assignment.grade}%</p>
                                                 </div>
                                             </div>
                                         </div>

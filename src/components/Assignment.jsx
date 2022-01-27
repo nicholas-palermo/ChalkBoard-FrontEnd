@@ -55,7 +55,7 @@ const Assignment = (props) => {
         let assignmentID = props.assignmentID;
         if (assignmentID !== 0) {
             try {
-                await fetch(`http://localhost:5000/grades/${studentID}/${assignmentID}/`)
+                await fetch(`http://localhost:5000/grade/${studentID}/${assignmentID}/`)
                     .then((response) => response.json())
                     .then((response) => {
                         setGrade(response);
