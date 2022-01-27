@@ -28,6 +28,10 @@ function Login(props) {
                         setRedirect(true);
                     }
                 })
+            } catch (err) {
+                console.error(err.message);
+            }
+        } 
 
     return (
         <div className="d-flex justify-content-center flex-column">
