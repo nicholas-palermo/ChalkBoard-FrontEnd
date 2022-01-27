@@ -5,7 +5,7 @@ const Grades = (props) => {
     const {grades, setGrades}=useState([]);
     const [courses,setCourses]=useState([]);
     const [studentID, setstudentID] = useState();
-    const [assignments, setAssignments] = useState([{title: "awrga", datedue: "arwvawbaw"}, {title: "tanesn", datedue: "awrawb"}, {title: "awrva", datedue: "now"}]);
+    const [assignments, setAssignments] = useState([]);
     const [assignmentID, setAssignmentID] = useState(0);
     const [grade, setGrade] = useState();
 
