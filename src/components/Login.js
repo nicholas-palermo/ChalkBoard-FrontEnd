@@ -1,36 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
+import React, { Fragment, useState } from "react";
+import { Link, Navigate } from 'react-router-dom';
 
-function Login() {
+function Login(props) {
 
     const [email, setEmail] = useState("");
     const [pass, setPass] = useState("");
-
-    useEffect(() => {
-        console.log(email);
-    }, [email])
+    const [redirect, setRedirect] = useState(false);
 
     const onSubmitForm = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`http://localhost:5000/login/${email}`);
-          
-            const jsonData = await response.json();
-            console.log(jsonData);
-
-            if (pass === jsonData.pass) {
-                console.log("correct password");
-                window.location = "/";
-            } else {
-                console.log("invalid password");
-            }
-
-            console.log(response);
-        } catch (err) {
-            console.error(err.message);
-        }
-    }
-
+            let studentUser;
+            await fetch(`http://localhost:5000/login/${email}`)
+                .then((response) => response.json())
+                .then((response) => studentUser = response)
+                .then(() => {
+                    if (pass === studentUser.pass) {
+                        console.log("correct password");
+                        props.getUser(studentUser);
+                    } else {
+                        console.log("invalid password");
+                        
+                    }
+                })
+                .then(() => {
+                    if (pass === studentUser.pass) {
+                        setRedirect(true);
+                    }
+                })
 
     return (
         <div className="d-flex justify-content-center flex-column">
