@@ -1,43 +1,53 @@
-import React, {useEffect, useState} from "react";
+import React, {Component, Fragment, useEffect, useState} from "react";
 import "../App.css";
+import Home from "./Home";
 import 'bootswatch/dist/minty/bootstrap.min.css';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 
 
-function Login() {
+function Login(props) {
 
     const [email, setEmail] = useState("");
     const [pass, setPass] = useState("");
+    const [redirect, setRedirect] = useState(false);
+
 
     useEffect(() => {
         console.log(email);
     }, [email])
 
-
     
     const onSubmitForm = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`http://localhost:5000/login/${email}`);
-            const jsonData = await response.json();
-            console.log(jsonData);
-
-            if (pass === jsonData.pass) {
-                console.log("correct password");
-                window.location = "/";
-            } else {
-                console.log("invalid password");
-            }
+            let studentUser;
+            await fetch(`http://localhost:5000/login/${email}`)
+                .then((response) => response.json())
+                .then((response) => studentUser = response)
+                .then(() => {
+                    if (pass === studentUser.pass) {
+                        console.log("correct password");
+                        props.getUser(studentUser);
+                    } else {
+                        console.log("invalid password");
+                        
+                    }
+                })
+                .then(() => {
+                    if (pass === studentUser.pass) {
+                        setRedirect(true);
+                    }
+                })
         } catch (err) {
             console.error(err.message);
         }
     } 
 
 
+
     return (
         <div>
-
             <center>
                 <div className=" w-50 rounded-top">
                     <label className="form-label mt-4"><h1 className="title "><strong>Chalkboard</strong> Login</h1></label><br />
@@ -59,6 +69,9 @@ function Login() {
                             </div>
                             <div className="buttonContainer mt-2">
                                 <button type="submit" className="btn btn-lg btn-dark ">Login</button>
+                                {
+                                    redirect ? <Navigate to='/' /> : <Fragment />
+                                }
                                 <div className="support-links m-3 p-2">
                                     <Link to="/newUser" className="text-light">New User</Link>
                                     <span className="seperator m-1">|</span>

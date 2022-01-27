@@ -9,26 +9,56 @@ import ManageAccount from "./components/ManageAccount";
 import ChangePassword from "./components/ChangePassword";
 import ChangeEmail from "./components/ChangeEmail";
 import Navbar from './components/shared/Navbar';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function App() {
-  return (
-    <div className="App">
-      <Router>
-        <Navbar></Navbar>
 
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/grades" element={<Grades />}></Route>
-          <Route exact path="/courses/:courseID" element={<Assignments />}></Route>
-          <Route exact path="/login" element={<Login />}></Route>
-          <Route exact path="/newUser" element={<NewUser />}></Route>
-          <Route exact path="/changeUsername" element={<ChangeEmail />}></Route>
-          <Route exact path="/changePassword" element={<ChangePassword />}></Route>
-          <Route exact path="/manageAccount" element={<ManageAccount />}></Route>
-        </Routes>
-      </Router>
-    </div>
-  );
+class App extends React.Component{
+
+  constructor() {
+    super();
+    this.state = {
+      userObject: { 
+        studentID: 0,
+        usertype: "NoType",
+        fname: "NoName",
+        lname: "NoName",
+        email: "NoEmail",
+        pass: "NoPass"
+      }
+      
+    }
+  }
+
+  getUser = (user) => {
+    this.setState({userObject:user}, () => {
+      console.log(this.state.userObject);
+    });
+    
+  }
+  
+
+  
+  render(){
+    return (
+      <div className="App">
+        <Router>
+          <Navbar></Navbar>
+
+          <Routes>
+            <Route exact path="/" element={<Home user={this.state.userObject} />} />
+            <Route exact path="/grades" element={<Grades />}></Route>
+            <Route exact path="/courses/:courseID" element={<Assignments />}></Route>
+            <Route exact path="/login" element={<Login getUser={this.getUser} />}></Route>
+            <Route exact path="/newUser" element={<NewUser />}></Route>
+            <Route exact path="/changeUsername" element={<ChangeEmail />}></Route>
+            <Route exact path="/changePassword" element={<ChangePassword />}></Route>
+            <Route exact path="/manageAccount" element={<ManageAccount />}></Route>
+          </Routes>
+        </Router>
+      </div>
+    );
+  }
 }
 
 export default App;

@@ -1,10 +1,34 @@
 import '../App.css'
 import React, { Fragment, useState } from "react";
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
-const Home = () => {
+const Home = (props) => {
 
     const [courses, setCourses] = useState([{term: "Spring 2022", name: "CSC326"},{term: "Spring 2022", name: "CSC226"},{term: "Spring 2022", name: "CSC315"}]);
+
+    const [fname, setfname] = useState();
+
+
+
+/*
+    const onLoad = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch(`http://localhost:5000/courses/${studentID}`);
+            const studentCourses = await response.json();
+            console.log(studentUser);
+        } catch (err) {
+            console.error(err.message);
+        }
+    } 
+ */ 
+
+    useEffect(() => {
+        console.log(props);
+        setfname(props.user.fname);
+    }, [props]);
+  
 
     const addCourse = () => {
         let newTerm = document.getElementById("termSelect").value;
@@ -23,7 +47,7 @@ const Home = () => {
                     <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             </div>
-            <h1 className="pt-5 text-center">Welcome, [First Name]</h1>
+            <h1 className="pt-5 text-center">Welcome, {fname}</h1>
             <div className="container pt-0 pt-md-3 pt-lg-5 my-5">
                 <div className="row">
                     <div className="col-12 col-md-4 pe-md-3 pe-lg-5">
