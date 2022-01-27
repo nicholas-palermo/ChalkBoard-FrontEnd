@@ -1,70 +1,31 @@
-# Getting Started with Create React App
+# Overview
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+ChalkBoard is a learning management system (LMS) that serves as an alternative to City University of New York's (CUNY) BlackBoard. To address the concerns of users when using BlackBoard, the group decided to plan and make a learning management application with ease of usage as the top priority.
 
-## Available Scripts
+# Description
 
-In the project directory, you can run:
+ChalkBoard has a minimilastic yet modern-looking user interface (UI) to help users navigate more easily in the application. The information displayed are made succinct to avoid clutter and improve user experience (UX) when using the application. The application is also mobile-friendly to be more accessible to various devices among users.
 
-### `npm start`
+Chalkboard lets a user create their own account using the organization-provided email (in this case, xxxxx@chalkboard.edu). Privileges granted depend on the account type, whether a Staff or a Student. Staff accounts have access to all Student accounts' information, assign new homeworks, as well as grade them. On the other hand, Student accounts only have access to their respective homeworks and grades.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Three main sections of Chalkboard are:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+*   Homepage
+*   Assignments
+*   Grades
 
-### `npm test`
+The Homepage contains important alerts, the list of courses that the user is enrolled at, and the recently graded homeworks. In the course list, a user can add a course with the term, subject, course code, and course name.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+In the Assignments page, a Student account can see all past and upcoming homeworks. In addition to those features, a Staff account can also set future homeworks, and comment on submissions.
 
-### `npm run build`
+In the Grades page, a Staff can view multiple student grades, set grades for submitted homeworks, and set upcoming homeworks as well. Information such as the assignment name, due date, date updated, and grade will be displayed for the user. However, a Student user can only choose and click on an existing course to view the all the homeworks for that particular course.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Future Improvements
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+In the future, the group would like to implement several more features such as:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Profile Page - to view and change the user's account information.
 
-### `npm run eject`
+2. Attendance Page - to keep track of a user's class attendance in each course.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+3. Password Change - to add a layer of security for users as well as a reset password functionality in case a user forgets their password.
