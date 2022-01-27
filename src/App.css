@@ -1,3 +1,7 @@
 .bg-grey {
     background-color: lightslategrey;
 }
+
+.flex-even {
+    flex: 1;
+}
