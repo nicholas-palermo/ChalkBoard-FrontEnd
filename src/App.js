@@ -28,10 +28,7 @@ class App extends React.Component{
   }
 
   getUser = (user) => {
-    this.setState({userObject:user}, () => {
-      console.log(this.state.userObject);
-    });
-    
+    this.setState({userObject:user});
   }
   
   render(){

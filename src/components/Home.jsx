@@ -5,52 +5,110 @@ import { useEffect } from 'react';
 
 const Home = (props) => {
 
-    const [courses, setCourses] = useState([{term: "Spring 2022", code: "CSC326"},{term: "Spring 2022", code: "CSC226"},{term: "Spring 2022", code: "CSC315"}]);
+    const [courses, setCourses] = useState([]);
 
     const [fname, setfname] = useState();
+    const [studentID, setStudentID] = useState();
 
-/*
-    const onLoad = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await fetch(`http://localhost:5000/courses/${studentID}`);
-            const studentCourses = await response.json();
-            console.log(studentUser);
-        } catch (err) {
-            console.error(err.message);
-        }
+    //On load function - sets up dashboard with information from database
+    const onLoad = async () => {
+       if (studentID) {
+           setCourses([]);
+           try {
+               let studentCourses;
+               await fetch(`http://localhost:5000/courses/${studentID}`)
+                .then((response) => response.json())
+                .then((response) => studentCourses = response)
+                .then(() => {
+                    let termRE = /[^0-9](?=[0-9])/g;
+                    for(let i = 0; i < studentCourses.length; i++) {
+                        let term = studentCourses[i].term.replace(termRE, '$& ');
+                        term = term[0].toUpperCase() + term.slice(1);
+                        setCourses(courses => [...courses, {term: term, code: studentCourses[i].courseid}]);
+                    }
+                })
+           } catch (err) {
+               console.error(err.message);
+           }
+       }
     } 
-*/ 
 
+    //Performs onload functions
     useEffect(() => {
-        console.log(props);
         setfname(props.user.fname);
+        setStudentID(props.user.studentid);
     }, [props]);
   
+    useEffect(() => {
+        onLoad();
+    }, [studentID]);
+
+
+
     const resetModal = () => {
         document.getElementById("termSelect").value = "Spring2022";
-        document.getElementById("courseCode").value = "";
+        document.getElementById("courseID").value = "";
         document.getElementById("courseName").value = "";
     }
 
+
+    //Add course functionality
     const addCourse = (e) => {
         e.preventDefault();
-        let newTerm = document.getElementById("termSelect").value;
+        let term = document.getElementById("termSelect").value;
+        let newTerm = term;
         let courseSubject = document.getElementById("courseSubject").value;
-        let courseCode = document.getElementById("courseCode").value;
+        let facultyID = 115;
+        let courseID = document.getElementById("courseID").value;
         let courseName = document.getElementById("courseName").value;
         let termRE = /[^0-9](?=[0-9])/g;
-        courseCode = courseCode.slice(0,3).toUpperCase() + courseCode.slice(3);
+        courseID = courseID.slice(0,3).toUpperCase() + courseID.slice(3);
         newTerm = newTerm.replace(termRE, '$& ');
-        setCourses(courses => [...courses, {term: newTerm, code: courseCode}]);
+        newTerm = newTerm[0].toUpperCase() + newTerm.slice(1);
+        setCourses(courses => [...courses, {term: newTerm, code: courseID}]);
+
+        addCourseToDB(courseID, courseName, facultyID, term, courseSubject);
+        enrollInCourse(studentID, courseID, term);
+
     }
 
-    const validateCourseCode = () => {
-        let courseCode = document.getElementById("courseCode").value;
+    //add course to databse after add-course form is submit
+    const addCourseToDB = async (courseID, courseName, facultyID, term, courseSubject) => {
+        try {
+            const body = { courseID, courseName, facultyID, term, courseSubject }
+            const response = await fetch("http://localhost:5000/newCourse", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            });
+    
+            console.log(response);
+        } catch (err) {
+            console.error(err.message);
+        }
+    }
+
+    //enrolls student in course by creating a studentCourse tuple for add-course form
+   const enrollInCourse = async (studentID, courseID, term) => {
+        try {
+            const body = { studentID, courseID, term }
+            const response = await fetch("http://localhost:5000/newStudentCourse", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            });
+            console.log(response);
+        } catch (err) {
+            console.error(err.message);
+        }
+   }
+
+    const validatecourseID = () => {
+        let courseID = document.getElementById("courseID").value;
         let submitBtn = document.getElementById("submitCourseBtn");
         let courseRE = /[a-zA-Z]{3}\d{3}/;
 
-        if (!courseRE.test(courseCode))
+        if (!courseRE.test(courseID))
             submitBtn.classList.add("disabled");
         else
             submitBtn.classList.remove("disabled");
@@ -76,7 +134,7 @@ const Home = (props) => {
                                 {
                                     courses.map((course, idx) => {
                                         return (
-                                            <li key={idx} className="list-group-item"><Link className="text-dark text-decoration-none" to={"/courses/" + idx}>{course.term}: {course.code}</Link></li>
+                                            <li key={idx} className="list-group-item"><Link className="text-dark text-decoration-none" to={"/courses/" + course.code}>{course.term}: {course.code}</Link></li>
                                         )
                                     })
                                 }
@@ -111,15 +169,15 @@ const Home = (props) => {
                                 <div className='mb-3'>
                                     <label htmlFor="termSelect">Select the term:</label>
                                     <select required className="form-select" id='termSelect'>
-                                        <option value="Spring2022">Spring 2022</option>
-                                        <option value="Summer2022">Summer 2022</option>
-                                        <option value="Fall2022">Fall 2022</option>
-                                        <option value="Winter2022">Winter 2022</option>
+                                        <option value="spring2022">Spring 2022</option>
+                                        <option value="summer2022">Summer 2022</option>
+                                        <option value="fall2022">Fall 2022</option>
+                                        <option value="winter2022">Winter 2022</option>
                                     </select>
                                 </div>
                                 <div className='mb-3'>
                                     <label htmlFor="subjectSelect">Select the subject:</label>
-                                    <select required className="form-select" id='subjectSelect'>
+                                    <select required className="form-select" id='courseSubject'>
                                         <option value="Computer Science">Computer Science</option>
                                         <option value="Mathematics">Mathematics</option>
                                         <option value="Business">Business</option>
@@ -132,8 +190,8 @@ const Home = (props) => {
                                     </select>
                                 </div>
                                 <div className='mb-3'>
-                                    <label htmlFor="courseCode">Course Code:</label>
-                                    <input required maxLength={6} type="text" className="form-control text-dark" id="courseCode" placeholder="CSC###" onChange={validateCourseCode}/>
+                                    <label htmlFor="courseID">Course Code:</label>
+                                    <input required maxLength={6} type="text" className="form-control text-dark" id="courseID" placeholder="CSC###" onChange={validatecourseID}/>
                                 </div>
                                 <div className='mb-3'>
                                     <label htmlFor="courseName">Course Name:</label>
