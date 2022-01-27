@@ -10,7 +10,6 @@ import Navbar from './components/shared/Navbar';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
 class App extends React.Component{
 
   constructor() {
@@ -34,8 +33,6 @@ class App extends React.Component{
     });
     
   }
-  
-
   
   render(){
     return (
